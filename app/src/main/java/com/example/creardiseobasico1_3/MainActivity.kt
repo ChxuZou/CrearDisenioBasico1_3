@@ -18,6 +18,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.creardiseobasico1_3.ui.theme.CrearDiseñoBasico1_3Theme
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,11 +31,10 @@ class MainActivity : ComponentActivity() {
             CrearDiseñoBasico1_3Theme {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    GreetingText(message = "Happy Birthday Sam!", from = "From Pepe")
-                }
+                    GreetingImage(stringResource(R.string.happy_birthday_text),
+                        stringResource(R.string.signature_text))                }
             }
         }
     }
@@ -40,9 +44,8 @@ class MainActivity : ComponentActivity() {
 fun GreetingText(message: String,from: String, modifier: Modifier = Modifier) {
     Column (
         verticalArrangement = Arrangement.Center,
-        modifier = modifier.padding(8.dp)
+        modifier = modifier
     ){
-
         Text(
             text = message,
             fontSize = 100.sp,
@@ -52,14 +55,38 @@ fun GreetingText(message: String,from: String, modifier: Modifier = Modifier) {
         Text(
             text = from,
             fontSize = 36.sp,
-            modifier = Modifier.padding(16.dp).align(alignment = Alignment.End)
+            modifier = Modifier
+                .padding(16.dp)
+                .align(alignment = Alignment.CenterHorizontally)
         )
     }
 }
-@Preview(showBackground = true)
+
+@Composable
+fun GreetingImage(message: String, from: String) {
+    val image = painterResource(R.drawable.androidparty)
+    Box {
+        Image(
+            painter = image,
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            alpha = 0.5F
+        )
+        GreetingText(
+            message = message,
+            from = from,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp)
+        )
+    }
+}
+@Preview(showBackground = false)
 @Composable
 fun BirthdayCardPreview() {
     CrearDiseñoBasico1_3Theme {
-        GreetingText(message = "Happy Birthday Sam!", from = "From Pepe")
+        GreetingImage(stringResource(R.string.happy_birthday_text),
+            stringResource(R.string.signature_text))
     }
 }
+
